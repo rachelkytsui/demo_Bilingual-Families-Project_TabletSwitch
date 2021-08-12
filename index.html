@@ -75,7 +75,8 @@
     timeline.push({
         type: 'fullscreen',
         message: "<p>Welcome to the study!</p>" +
-        "<p>Please hold your device <b>horizontally</b> throughout the study. <b>Make sure your audio is not muted</b> before you press the button below</p>",
+        "<p>Please hold your device <b>horizontally</b> throughout the study. <b>Make sure your audio is not muted</b> before you press the button below</p>" +
+        "<p style='color:red'>If you need to abort the game, please make sure to tap the X button to close the tab and save your data.</p>",
         fullscreen_mode: true
     })
 
@@ -1186,7 +1187,7 @@
                         return "<p>Est-ce un bon moment pour vous pour remplir le questionnaire parental?</p>"
                     }
                 },
-        choices: ['Yes'],
+        choices: ['Yes', 'No'],
         response_ends_trial: true,
         response_ends_trial: true,
         trial_duration: 120000,
@@ -1330,8 +1331,8 @@
         conditional_function: function(){
             // get the data from the previous trial
             var data = jsPsych.data.get().last(1).values()[0];
-            if(data.rt == null){
-                return false; // skip the survey if no repsonse is made to the question "Are you ready for the parent's survey?"
+            if((data.rt == null) || (data.response == 1)){
+                return false; // skip the survey if no repsonse is made to the question "Are you ready for the parent's survey?" or if "no" is chosen
             } else {
                 return true; // otherwise, continue with the survey
             }
